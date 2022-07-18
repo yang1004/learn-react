@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-引出生命周期</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/babel.min.js"></script>
+<!-- 引入prop-types -->
+<script src="../js/prop-types.js"></script>
+
+<script type="text/babel">
+    class Demo extends React.Component{
+
+        state = {
+            opacity:1,
+            timer:null
+        }
+
+        delComponent = ()=>{
+            //卸载组件
+            ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+        }
+
+        //组件挂载完成
+        componentDidMount(){
+            let timer = setInterval(()=>{
+                let { opacity } = this.state
+                opacity -= 0.1
+                if(opacity <= 0) opacity = 1
+                this.setState({opacity})
+            },200)
+            this.setState({timer})
+        }
+
+        componentWillUnmount(){
+            console.log('即将卸载')
+            clearInterval(this.state.timer)
+        }
+
+        render(){
+            let { opacity } = this.state
+            return (
+                <div>
+                    <h1 style={{opacity}}>我是标题</h1>    
+                    <button onClick={ this.delComponent }>点我卸载组件</button>
+                </div>
+            )
+        }
+        
+    }
+
+    ReactDOM.render(<Demo />,document.getElementById('test'))
+</script>
+</html>

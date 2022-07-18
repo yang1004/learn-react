@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-事件处理.html</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/babel.min.js"></script>
+<!-- 引入prop-types -->
+<script src="../js/prop-types.js"></script>
+
+<script type="text/babel">
+    class Person extends React.Component{
+
+        /**
+         * 1.通过onXxx属性指定事件处理函数，驼峰命名法
+         *   a.React使用的是自定义事件，而不是原生事件  为了更好的兼容性
+         *   b.React的事件是通过事件委托的方式处理的，添加的事件都给了最外层元素    使得处理事件更高效
+         * 2.通过event.target可以拿到当前DOM节点
+        */
+        myRef1 = React.createRef()
+        myRef2 = React.createRef()
+
+        showData1 = ()=>{
+            alert(this.myRef1.current.value)
+        }
+
+        showData2 = (event)=>{
+            alert(event.target.value)
+        }
+
+        render(){
+            return (
+                <div>
+                    <input ref={ this.myRef1 } type="text" />    &nbsp;&nbsp;&nbsp;
+                    <button onClick={ this.showData1 }>点我弹窗input内容</button>&nbsp;&nbsp;&nbsp;
+                    <input onBlur={ this.showData2 } type="text" />    
+                </div>
+            )
+        }
+
+    }
+
+    ReactDOM.render(<Person />,document.getElementById('test') )
+</script>
+</html>

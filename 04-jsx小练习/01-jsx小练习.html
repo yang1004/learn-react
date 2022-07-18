@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-jsx小练习</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+
+    /**
+     * jsx只支持js表达式，不支持js语句
+     * 1.js表达式：有返回值
+     *   例：三元表达式
+     *      arr.map()
+     *      function
+     * 2.js语句：没有返回值
+     *   例：if判断
+     *       for
+     *       switch
+    */
+   let data = ['篮球','足球','羽毛球']
+    //创建虚拟DOM
+    let VDOM = (
+        <div>
+            <h1>兴趣爱好</h1>
+            <ul>
+                {
+                    data.map((item,index)=>{
+                        return <li key={index}>{item}</li>
+                    })
+                }
+            </ul>
+        </div>
+    )
+    
+    //渲染DOM
+    ReactDOM.render(VDOM,document.getElementById('test'))
+
+</script>
+</html>

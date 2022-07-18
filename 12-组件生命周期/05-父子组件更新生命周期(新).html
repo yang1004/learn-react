@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-父子组件更新生命周期(旧)</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/17.0.1/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/17.0.1/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/17.0.1/babel.min.js"></script>
+<!-- 引入prop-types -->
+<script src="../js/17.0.1/prop-types.js"></script>
+
+<script type="text/babel">
+
+    class A extends React.Component{
+
+        state = {
+            car:'奥迪'
+        }
+
+        changeCar = ()=>{
+            this.setState({ car:'奔驰' })
+        }
+
+        //（阀门）setState时是否需要更新，返回true更新，返回false不往下执行更新，不写此钩子时默认返回true
+        shouldComponentUpdate(){
+            console.log('A---shouldComponentUpdate')
+            return true
+        }
+
+        //组件即将要被改动，setState时被调用
+        UNSAFE_componentWillUpdate(){
+            console.log('A---componentWillUpdate')
+        }
+
+        //组件被改动完成,render完后调此钩子
+        componentDidUpdate(){
+            console.log('A---componentDidUpdate')
+        }
+
+        //组件被渲染
+        render(){
+            console.log('A---render')
+            let { car } = this.state
+            return (
+                <div>
+                    <button onClick={this.changeCar}>点击修改车辆信息</button>
+                    <B carName={car}/>
+                </div>
+            )
+        }
+
+    }
+
+    class B extends React.Component{
+
+        static propTypes = {
+            carName:PropTypes.string
+        }
+
+        //props默认值
+        static defaultProps = {
+            carName:'奥迪'
+        }
+
+        //第一次传入props不调用，更新时调用
+        UNSAFE_componentWillReceiveProps(){
+            console.log('B---componentWillReceiveProps')
+        }
+
+        //（阀门）setState时是否需要更新，返回true更新，返回false不往下执行更新，不写此钩子时默认返回true
+        shouldComponentUpdate(){
+            console.log('B---shouldComponentUpdate')
+            return true
+        }
+
+        //组件即将要被改动，setState时被调用
+        UNSAFE_componentWillUpdate(){
+            console.log('B---componentWillUpdate')
+        }
+
+        //组件被改动完成,render完后调此钩子
+        componentDidUpdate(){
+            console.log('B---componentDidUpdate')
+        }
+
+        //组件被渲染
+        render(){
+            console.log('B---render')
+            const { carName } = this.props
+            return (
+                <div>
+                    <h3>车辆品牌为{carName}</h3>
+                </div>
+            )
+        }
+
+    }
+
+    ReactDOM.render(<A />,document.getElementById('test'))
+</script>
+</html>

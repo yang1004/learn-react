@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-回调ref调用次数</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/babel.min.js"></script>
+<!-- 引入prop-types -->
+<script src="../js/prop-types.js"></script>
+
+<script type="text/babel">
+    class Person extends React.Component{
+
+        state = {
+            isHot:true
+        }
+
+        changeWeather = ()=>{
+            const { isHot } = this.state
+            this.setState({
+                isHot:!isHot
+            })
+        }
+
+        bindRef = (node) => {
+            this.input1 =node
+            console.log('@',node)
+        }
+
+        showData1 = ()=>{
+            alert(this.input1.value)
+        }
+
+        render(){
+            return (
+                <div>
+                    <h1 onClick={this.changeWeather}>今天天气很{ this.state.isHot ? '炎热' : '凉爽' }</h1>
+                    { /*<input ref={ (node)=>{this.input1 =node;console.log('@',node)} } type="text" />&nbsp;&nbsp;&nbsp; 内联绑定页面发生变动时会调用两次，第一次node为null，第二次绑定*/ }
+                    <input ref={ this.bindRef } type="text" />&nbsp;&nbsp;&nbsp;
+                    {/* class函数绑定会解决此问题，两种方法均可无影响 */}
+                    <button onClick={ this.showData1 }>点我弹窗input内容</button>&nbsp;&nbsp;&nbsp; 
+                </div>
+            )
+        }
+
+    }
+
+    ReactDOM.render(<Person />,document.getElementById('test') )
+</script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-jsx语法规则</title>
+</head>
+<style>
+    .title1{
+        background-color: red;
+    }
+</style>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/babel.min.js"></script>
+
+<!-- 此处必须写babel，用于解析jsx -->
+<script type="text/babel">
+    //1.创建虚拟DOM
+    const VDOM = (
+        <div>
+            <h1 id="title" className="title1">
+                <span style={{color:'green',fontSize:'50px'}}>hello React</span>
+            </h1>  
+            <h1 id="title">
+                <span>hello React</span>
+            </h1>  
+            <input type="text" /> 
+        </div>
+    )
+    // 2.渲染虚拟DOM
+    ReactDOM.render(VDOM,document.getElementById('test'))
+
+    /**
+     * jsx语法规则
+     * 1.只能有一个根标签
+     * 2.添加class名称时应添加至className，因为class与ES6语法重名
+     * 3.内联样式需写成 style={{key:value}}
+     * 4.jsx写的都是封闭的标签，否则会报错
+     * 5.如果标签名为小写，则去寻找html同名元素，找不到会报错；如果为大写，则会寻找该名的组件，找不到会报错
+     * 6.可以写js表达式，写在{}里面
+    */
+</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-state</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+    // 创建类式组件
+    //类式组件需继承React.Component，类中必须写有render方法
+    class Weather extends React.Component{
+        constructor(props){
+            super(props)
+            this.state = {
+                isHot:true,
+                wind:'大风'
+            }
+            this.changWeather = this.changWeather.bind(this)
+        }
+        changWeather(){
+            // 通过实例本身调用原型上的方法时this指向实例对象，否则为undefined。因为onClick调用的this为window，加上自身为严格模式，this为undefined
+            let { isHot } = this.state
+            this.setState({
+                isHot:!isHot
+            })
+        }
+        render(){
+            let { isHot,wind } = this.state
+            return (
+                <h1 onClick={ this.changWeather }>今天天气很{ this.state.isHot ? '炎热' : '凉爽' },{ wind }</h1>
+            )
+        }
+    }
+    //渲染到页面
+    ReactDOM.render(<Weather />,document.getElementById('test'))
+</script>
+</html>

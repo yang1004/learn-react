@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-react的生命周期(旧)</title>
+</head>
+<body>
+    <div id="test"></div>
+</body>
+
+<!-- 引入React核心库 -->
+<script src="../js/17.0.1/react.development.js"></script>
+<!-- 引入React-dom，支持react操作DOM -->
+<script src="../js/17.0.1/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转换js -->
+<script src="../js/17.0.1/babel.min.js"></script>
+<!-- 引入prop-types -->
+<script src="../js/17.0.1/prop-types.js"></script>
+
+<script type="text/babel">
+
+    class Count extends React.Component{
+
+        constructor(props){
+            console.log('Count---constructor')
+            super(props)
+            this.state = {
+                count:0
+            }
+        }
+
+        //组件将要被挂载
+        UNSAFE_componentWillMount(){
+            console.log('Count---componentWillMount')
+        }
+
+        //组件被渲染
+        render(){
+            console.log('Count---render')
+            let { count } = this.state
+            return (
+                <div>
+                    <h2>求和的值为{ count }</h2>    
+                    <button onClick={ this.add }>点我+1</button>
+                    <button onClick={ this.delComponent }>点我卸载组件</button>
+                    <button onClick={ this.forceUpdateData }>点我强制更新组件</button>
+                </div>
+            )
+        }
+
+        //组件被挂载完成
+        componentDidMount(){
+            console.log('Count---componentDidMount')
+        }
+
+        //组件将要被卸载
+        UNSAFE_componentWillUnmount(){
+            console.log('Count---componentWillUnmount')
+        }
+
+        //（阀门）setState时是否需要更新，返回true更新，返回false不往下执行更新，不写此钩子时默认返回true
+        shouldComponentUpdate(){
+            console.log('Count---shouldComponentUpdate')
+            return false
+        }
+
+        //组件即将要被改动，setState时被调用
+        UNSAFE_componentWillUpdate(){
+            console.log('Count---componentWillUpdate')
+        }
+
+        //组件被改动完成,render完后调此钩子
+        componentDidUpdate(){
+            console.log('Count---componentDidUpdate')
+        }
+
+
+        add = ()=>{
+            let { count } = this.state
+            this.setState({
+                count:count+1
+            })
+        }
+
+        delComponent = ()=>{
+            ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+        }
+
+        //强制更新回调,跳过shouldComponentUpdate
+        forceUpdateData = ()=>{
+            this.forceUpdate()
+        }
+        
+    }
+
+    ReactDOM.render(<Count />,document.getElementById('test'))
+</script>
+</html>
