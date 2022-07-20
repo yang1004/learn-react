@@ -21,6 +21,12 @@
 
 <script type="text/babel">
 
+    /**
+     * 页面初次渲染：constructor->getDerivedStateFromProps->render->componentDidMount
+     * 更新DOM时：getDerivedStateFromProps->render->getSnapshotBeforeUpdate->componentDidUpdate
+     * 组件卸载时：componentWillUnmount
+    */
+
     class Count extends React.Component{
 
         constructor(props){
@@ -31,9 +37,10 @@
             }
         }
 
-        //组件将要被挂载
-        UNSAFE_componentWillMount(){
-            console.log('Count---componentWillMount')
+        //从props得到一个派生的状态,若state的值都取决于props可以使用此函数
+        static getDerivedStateFromProps(props,state){
+            console.log('getDerivedStateFromProps',props,state)
+            return null
         }
 
         //组件被渲染
@@ -55,25 +62,20 @@
             console.log('Count---componentDidMount')
         }
 
+        //更新前获取快照值
+        getSnapshotBeforeUpdate(){
+            console.log('Count---getSnapshotBeforeUpdate')
+            return 'sbsbsb'
+        }
+
+        //组件被改动完成,render完后调此钩子,getSnapshotBeforeUpdate返回的值在第三个参数
+        componentDidUpdate(prevProps,prevState,snapshotValue){
+            console.log('Count---componentDidUpdate',props,state,snapshotValue)
+        }
+
         //组件将要被卸载
-        UNSAFE_componentWillUnmount(){
+        componentWillUnmount(){
             console.log('Count---componentWillUnmount')
-        }
-
-        //（阀门）setState时是否需要更新，返回true更新，返回false不往下执行更新，不写此钩子时默认返回true
-        shouldComponentUpdate(){
-            console.log('Count---shouldComponentUpdate')
-            return false
-        }
-
-        //组件即将要被改动，setState时被调用
-        UNSAFE_componentWillUpdate(){
-            console.log('Count---componentWillUpdate')
-        }
-
-        //组件被改动完成,render完后调此钩子
-        componentDidUpdate(){
-            console.log('Count---componentDidUpdate')
         }
 
 
@@ -95,6 +97,6 @@
         
     }
 
-    ReactDOM.render(<Count />,document.getElementById('test'))
+    ReactDOM.render(<Count count={199}/>,document.getElementById('test'))
 </script>
 </html>
