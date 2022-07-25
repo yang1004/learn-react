@@ -1,0 +1,12 @@
+.parent{
+    background-color: red;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.child{
+    margin-top: 20px;
+    background-color: blue;
+    padding: 10px;
+    box-sizing: border-box;
+}
